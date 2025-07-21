@@ -50,6 +50,13 @@
         </button>
         <button
           *ngIf="!isApprovalTable"
+          class="btn btn-sm text-primary"
+          (click)="onEdit(item.id)"
+        >
+          <i class="fas fa-edit"></i>
+        </button>
+        <button
+          *ngIf="!isApprovalTable"
           class="btn btn-sm text-danger"
           (click)="onDelete(item.id)"
         >

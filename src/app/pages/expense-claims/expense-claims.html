@@ -54,8 +54,9 @@
     <ng-template #showClaimsTable>
       <app-expense-claims-table
         [claimsList]="claimList"
-        [showActions]="!isEmployee"
+        [showActions]="true"
         (delete)="deleteExpenseClaim($event)"
+        (edit)="editExpenseClaim($event)"
       ></app-expense-claims-table>
     </ng-template>
   </div>

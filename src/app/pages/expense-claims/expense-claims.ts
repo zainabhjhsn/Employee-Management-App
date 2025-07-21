@@ -108,6 +108,23 @@ export class ExpenseClaims implements OnInit {
     }
   }
 
+  editExpenseClaim(claimId: number) {
+    if (confirm('Are you sure you want to update this claim?')) {
+      this.expenseClaimService.updateClaim(claimId).subscribe({
+        next: (response: APIResponseModel) => {
+          if (response.status === 'success') {
+            alert('Claim updated successfully!');
+            this.loadAllExpenseClaims();
+          }
+        },
+        error: (error) => {
+          alert('Failed to update claim.');
+          console.error(error);
+        },
+      });
+    }
+  }
+
   approveClaim(id: number) {
     this.expenseClaimService.approveClaim(id).subscribe({
       next: () => {

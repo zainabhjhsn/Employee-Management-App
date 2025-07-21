@@ -16,6 +16,7 @@ export class ExpenseClaimsTable {
   @Output() approve = new EventEmitter<number>();
   @Output() reject = new EventEmitter<number>();
   @Output() delete = new EventEmitter<number>();
+  @Output() edit = new EventEmitter<number>();
 
   onApprove(id: number) {
     this.approve.emit(id);
@@ -27,5 +28,9 @@ export class ExpenseClaimsTable {
 
   onDelete(id: number) {
     this.delete.emit(id);
+  }
+
+  onEdit(id: number) {
+    this.edit.emit(id);
   }
 }
