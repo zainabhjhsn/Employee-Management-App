@@ -1,5 +1,5 @@
 {
-  "name": "my-angular20-app",
+  "name": "employee-management-app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:my-angular20-app": "node dist/my-angular20-app/server/server.mjs"
+    "serve:ssr:employee-management-app": "node dist/employee-management-app/server/server.mjs"
   },
   "prettier": {
     "overrides": [
@@ -29,7 +29,10 @@
     "@angular/platform-server": "^20.1.0",
     "@angular/router": "^20.1.0",
     "@angular/ssr": "^20.1.1",
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "bootstrap": "^5.3.7",
     "express": "^5.1.0",
+    "font-awesome": "^4.7.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

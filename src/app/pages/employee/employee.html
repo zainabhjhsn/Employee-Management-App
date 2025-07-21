@@ -1,0 +1,198 @@
+<div class="container-fluid p-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Employee Management</h1>
+        <button class="btn btn-primary" (click)="openModal()">
+          <i class="fas fa-plus me-2"></i>Add Employee
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Employee List Table -->
+  <div class="card shadow">
+    <div class="card-header">
+      <h6 class="m-e font-weight-bold text-primary">Employee List</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-secondary">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Department</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- @for (item of employeeList; track $index) { -->
+            <tr *ngFor="let emp of employeeList; trackBy: trackById">
+              <!-- <td>{{ $index + 1 }}</td> -->
+              <td>{{ emp.id }}</td>
+              <td>{{ emp.name }}</td>
+              <td>{{ emp.email }}</td>
+              <td>{{ emp.address }}</td>
+              <td>{{ emp.department?.name || "-" }}</td>
+
+              <td>
+                <!-- class="btn btn-sm btn-warning me-1" -->
+                <button
+                  class="btn btn-sm me-1 text-primary"
+                  (click)="editEmployee(emp)"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="btn btn-sm text-danger"
+                  (click)="deleteEmployee(emp.id)"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <!-- } -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Employee Modal to add and edit -->
+<div class="modal" #employeeModal tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          @if (employeeData.id == 0) { Add New Employee } @else { Edit Employee
+          }
+        </h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="employeeName" class="form-label">
+                  Employee Name</label
+                >
+                <input
+                  type="text"
+                  [(ngModel)]="employeeData.name"
+                  name="name"
+                  class="form-control"
+                  id="employeeName"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  [(ngModel)]="employeeData.email"
+                  name="email"
+                  class="form-control"
+                  id="email"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6" *ngIf="employeeData.id == 0">
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input
+                  type="password"
+                  [(ngModel)]="employeeData.password"
+                  name="password"
+                  class="form-control"
+                  id="password"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6" *ngIf="employeeData.id != 0">
+              <div class="mb-3">
+                <label for="password" class="form-label">Reset Password</label>
+                <input
+                  type="password"
+                  [(ngModel)]="employeeData.password"
+                  name="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="Leave empty to keep current password"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input
+                  type="text"
+                  [(ngModel)]="employeeData.address"
+                  name="address"
+                  class="form-control"
+                  id="address"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="department" class="form-label">Department</label>
+                <select
+                  class="form-select"
+                  id="department"
+                  required
+                  [(ngModel)]="employeeData.department_id"
+                  name="department_id"
+                >
+                  <option value="" disabled selected>Select Department</option>
+                  <option
+                    *ngFor="let item of departmentList$ | async"
+                    [value]="item.id"
+                  >
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-secondary me-2"
+              (click)="closeModal()"
+            >
+              Cancel
+            </button>
+
+            @if (employeeData.id == 0) {
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="submitAddEmployee()"
+            >
+              Save
+            </button>
+            } @else {
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="submitEditEmployee()"
+            >
+              Update
+            </button>
+            }
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

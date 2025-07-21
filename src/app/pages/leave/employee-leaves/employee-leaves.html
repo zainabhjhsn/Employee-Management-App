@@ -1,0 +1,57 @@
+<button (click)="goBack()" class="btn btn-secondary mb-3">
+  <!--Back to All Employees' Leaves -->
+  ← Back
+</button>
+
+<!-- Your leaves table here -->
+
+<h4 class="mb-4">Leaves for Employee: {{ leaves[0]?.employee?.name }}</h4>
+
+<div class="mb-4 d-flex flex-wrap align-items-center gap-3">
+  <div class="d-flex align-items-center gap-2">
+    <label class="form-label mb-1">From</label>
+    <input
+      type="date"
+      [(ngModel)]="fromDate"
+      class="form-control shadow-sm"
+      placeholder="From Date"
+    />
+  </div>
+
+  <div class="d-flex align-items-center gap-2">
+    <label class="form-label mb-1">To</label>
+    <input
+      type="date"
+      [(ngModel)]="toDate"
+      class="form-control shadow-sm"
+      placeholder="To Date"
+    />
+  </div>
+
+  <div class="align-self-end">
+    <button class="btn btn-primary px-4 shadow-sm" (click)="applyFilter()">
+      <i class="fas fa-filter me-1"></i> Filter
+    </button>
+  </div>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Leave Type</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Number Of Days</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let leave of leaves">
+      <td>{{ leave.leaveType?.name }}</td>
+      <td>{{ leave.from_date | date : "dd-MM-yyyy" }}</td>
+      <td>{{ leave.to_date | date : "dd-MM-yyyy" }}</td>
+      <td>{{ leave.number_of_days }}</td>
+      <td>{{ leave.status }}</td>
+    </tr>
+  </tbody>
+</table>

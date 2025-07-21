@@ -1,0 +1,207 @@
+<div class="container-fluid p-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Leave Management</h1>
+        <button class="btn btn-primary" (click)="openModal()">
+          <i class="fas fa-plus me-2"></i>Add Leave Request
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <ul class="nav nav-tabs mb-4" id="leaveTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        [ngClass]="currentTabName == 'leaves' ? 'active' : ''"
+        id="all-tab"
+        (click)="changeTab('leaves')"
+        type="button"
+        role="tab"
+      >
+        {{ isAdmin ? "All Leaves" : "My Leaves" }}
+      </button>
+    </li>
+
+    <li class="nav-item" role="presentation" *ngIf="userRole === 'admin'">
+      <button
+        class="nav-link"
+        [ngClass]="currentTabName == 'leaveRequests' ? 'active' : ''"
+        id="pending-tab"
+        (click)="changeTab('leaveRequests')"
+        type="button"
+        role="tab"
+      >
+        Leave Requests
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content" id="leaveTabContent">
+    @if (currentTabName == 'leaves') {
+    <div class="mb-3 d-flex align-items-center gap-3">
+      <label for="filterFromDate" class="mb-0 fw-semibold">From:</label>
+      <input
+        type="date"
+        id="filterFromDate"
+        [(ngModel)]="filterFromDate"
+        class="form-control"
+        style="max-width: 200px"
+      />
+
+      <label for="filterToDate" class="mb-0 fw-semibold">To:</label>
+      <input
+        type="date"
+        id="filterToDate"
+        [(ngModel)]="filterToDate"
+        class="form-control"
+        style="max-width: 200px"
+      />
+
+      <button class="btn btn-primary" (click)="applyDateFilter()">
+        Filter
+      </button>
+
+      <button class="btn btn-secondary" (click)="clearDateFilter()">
+        Clear
+      </button>
+    </div>
+
+    <div class="tab-pane fade show active" id="all" role="tabpanel">
+      <div class="card shadow">
+        <div class="card-header">
+          <h6 class="m-0 font-weight-bold text-primary">
+            {{
+              userRole === "admin" ? "All Leave Requests" : "My Leaves Requests"
+            }}
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-secondary">
+                <tr>
+                  <th>Employee</th>
+                  <th>Leave Type</th>
+                  <th>From Date</th>
+                  <th>To Date</th>
+                  <th>Days</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of leaveList; track $index) {
+                <tr>
+                  <td>{{ item.employee?.name }}</td>
+                  <td>{{ item.leaveType?.name || "N/A" }}</td>
+                  <td>{{ item.from_date | date : "dd-MM-yyyy" }}</td>
+                  <td>{{ item.to_date | date : "dd-MM-yyyy" }}</td>
+                  <td>{{ item.number_of_days }}</td>
+                  <td>
+                    @if(item.status == "pending") {
+                    <span class="badge bg-warning">Pending</span>
+                    } @else if(item.status == "approved") {
+                    <span class="badge bg-success">Approved</span>
+                    } @else if(item.status == "rejected"){
+                    <span class="badge bg-danger">Rejected</span>
+                    }
+                  </td>
+
+                  <td>
+                    <button
+                      *ngIf="isAdmin"
+                      class="btn btn-sm text-primary me-1"
+                      [routerLink]="['/leave/employee', item.employee_id]"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+
+                    <button
+                      class="btn btn-sm text-primary"
+                      (click)="openModal(item)"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </button>
+
+                    <button
+                      class="btn btn-sm text-danger"
+                      (click)="deleteLeave(item.id)"
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    } @else {
+    <div class="tab-pane fade show active" id="pending" role="tabpanel">
+      <div class="card shadow">
+        <div class="card-header">
+          <h6 class="m-0 font-weight-bold text-warning">
+            Pending Leave Requests Approval
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-secondary">
+                <tr>
+                  <th>Employee</th>
+                  <th>Leave Type</th>
+                  <th>From Date</th>
+                  <th>To Date</th>
+                  <th>Days</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of approvalLeaveList; track $index) {
+                <tr>
+                  <td>{{ item.employee.name }}</td>
+                  <td>{{ item.leaveType?.name || "N/A" }}</td>
+                  <td>{{ item.from_date | date : "dd-MM-yyyy" }}</td>
+                  <td>{{ item.to_date | date : "dd-MM-yyyy" }}</td>
+                  <td>{{ item.number_of_days }}</td>
+                  <td>
+                    <button
+                      class="btn btn-sm btn-success me-1"
+                      (click)="approveLeave(item.id)"
+                    >
+                      Approve
+                      <i class="fas fa-check"></i>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-danger me-1"
+                      (click)="rejectLeave(item.id)"
+                    >
+                      Reject
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+<app-leave-modal
+  [visible]="showModal"
+  [leaveToEdit]="selectedLeave"
+  (close)="closeModal()"
+  (leaveSubmitted)="handleLeaveSubmitted()"
+></app-leave-modal>

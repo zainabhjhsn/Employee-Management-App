@@ -1,0 +1,87 @@
+<!-- <div class="leave-types-container">
+  <h3>Manage Leave Types</h3>
+
+  <form (ngSubmit)="addLeaveType()" #leaveTypeForm="ngForm">
+    <input
+      type="text"
+      name="leaveTypeName"
+      [(ngModel)]="newLeaveTypeName"
+      placeholder="Enter new leave type"
+      required
+    />
+    <button type="submit" [disabled]="!leaveTypeForm.form.valid">Add</button>
+  </form>
+
+  <ul>
+    <li *ngFor="let leaveType of leaveTypes">
+      {{ leaveType.name }}
+      <button (click)="deleteLeaveType(leaveType.id)">Delete</button>
+    </li>
+  </ul>
+</div> -->
+
+<div class="container mt-4">
+  <!-- Box: Add Leave Type -->
+  <div class="card mb-4 shadow-sm">
+    <!-- <div class="card-header bg-primary text-white">
+      <strong>Add Leave Type</strong>
+    </div> -->
+    <div class="card-body">
+      <form (ngSubmit)="addLeaveType()" #leaveTypeForm="ngForm" class="row g-3">
+        <div class="col-md-6">
+          <label for="leaveTypeName" class="form-label">Leave Type Name</label>
+          <input
+            type="text"
+            id="leaveTypeName"
+            name="leaveTypeName"
+            [(ngModel)]="newLeaveTypeName"
+            class="form-control"
+            placeholder="Enter new leave type"
+            required
+          />
+        </div>
+        <div class="col-md-12">
+          <button
+            type="submit"
+            class="btn btn-primary mt-2"
+            [disabled]="!leaveTypeForm.form.valid"
+          >
+            Add Leave Type
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Table: Manage Leave Types -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white">
+      <strong>Manage Leave Types</strong>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead class="table-secondary">
+          <tr>
+            <th>#</th>
+            <th>Leave Type</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let leaveType of leaveTypes; index as i">
+            <td>{{ i + 1 }}</td>
+            <td>{{ leaveType.name }}</td>
+            <td>
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="deleteLeaveType(leaveType.id)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

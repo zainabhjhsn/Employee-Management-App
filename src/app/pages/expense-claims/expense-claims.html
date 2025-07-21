@@ -1,0 +1,81 @@
+<div class="container-fluid p-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Expense Claims Management</h1>
+
+        <button
+          class="btn btn-primary"
+          [routerLink]="['/expense-claims/new']"
+          *ngIf="isEmployee"
+        >
+          <i class="fas fa-plus me-2"></i>Add Expense Claim
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Tabs -->
+<ul class="nav nav-tabs mb-4" id="claimTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button
+      class="nav-link"
+      [class.active]="currentTabName === 'claims'"
+      id="all-tab"
+      (click)="changeTab('claims')"
+    >
+      {{ isEmployee ? "My Expense Claims" : "All Claims" }}
+    </button>
+  </li>
+
+  <li class="nav-item" role="presentation" *ngIf="!isEmployee">
+    <button
+      class="nav-link"
+      [ngClass]="currentTabName == 'claimRequests' ? 'active' : ''"
+      id="pending-tab"
+      (click)="changeTab('claimRequests')"
+    >
+      Expense Claims Requests
+    </button>
+  </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content">
+  <!-- Claims Tab -->
+  <div *ngIf="currentTabName === 'claims'" class="tab-pane active">
+    <div
+      *ngIf="claimList.length === 0; else showClaimsTable"
+      class="text-center text-muted mt-4"
+    >
+      No expense claims yet.
+    </div>
+    <ng-template #showClaimsTable>
+      <app-expense-claims-table
+        [claimsList]="claimList"
+        [showActions]="!isEmployee"
+        (delete)="deleteExpenseClaim($event)"
+      ></app-expense-claims-table>
+    </ng-template>
+  </div>
+
+  <!-- Admin Approval Tab -->
+  <div *ngIf="currentTabName === 'claimRequests'" class="tab-pane active">
+    <div
+      *ngIf="approvalClaimList.length === 0; else showApprovalTable"
+      class="text-center text-muted mt-4"
+    >
+      No claim requests yet.
+    </div>
+    <ng-template #showApprovalTable>
+      <app-expense-claims-table
+        [claimsList]="approvalClaimList"
+        [isApprovalTable]="true"
+        [showActions]="true"
+        (approve)="approveClaim($event)"
+        (reject)="rejectClaim($event)"
+      ></app-expense-claims-table>
+    </ng-template>
+  </div>
+</div>

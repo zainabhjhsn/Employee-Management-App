@@ -1,0 +1,132 @@
+<div class="modal" [ngStyle]="{ display: visible ? 'block' : 'none' }">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ leaveForm.value.id ? "Edit Leave Request" : "Add Leave Request" }}
+        </h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="leaveForm">
+          <div class="row">
+            <!-- Employee -->
+            <div class="col-md-6" *ngIf="isAdmin">
+              <div class="mb-3">
+                <label for="employeeId" class="form-label">Employee</label>
+                <select
+                  class="form-select"
+                  id="employeeId"
+                  formControlName="employee_id"
+                  required
+                >
+                  <option value="" disabled>Select Employee</option>
+                  <option
+                    *ngFor="let employee of employees"
+                    [value]="employee.id"
+                  >
+                    {{ employee.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- Leave Type -->
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="leaveType" class="form-label">Leave Type</label>
+                <select
+                  class="form-select"
+                  id="leaveType"
+                  formControlName="leave_type_id"
+                  required
+                >
+                  <option value="" disabled>Select Leave Type</option>
+                  <option *ngFor="let type of leaveTypes" [value]="type.id">
+                    {{ type.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- Dates -->
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="fromDate" class="form-label">From Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fromDate"
+                  formControlName="from_date"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="toDate" class="form-label">To Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="toDate"
+                  formControlName="to_date"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="noOfDays" class="form-label">Number of Days</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="noOfDays"
+                  formControlName="number_of_days"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3" *ngIf="isAdmin && leaveForm.value.id">
+                <label for="status" class="form-label">Status</label>
+                <select
+                  class="form-select"
+                  id="status"
+                  formControlName="status"
+                >
+                  <option *ngFor="let status of statusOptions" [value]="status">
+                    {{ status }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="details" class="form-label">Note</label>
+            <textarea
+              class="form-control"
+              id="details"
+              rows="3"
+              formControlName="note"
+              required
+              placeholder="Enter details or reason for leave request"
+            ></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="onSubmitLeaveRequest()"
+        >
+          {{ leaveForm.value.id ? "Update" : "Submit Request" }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

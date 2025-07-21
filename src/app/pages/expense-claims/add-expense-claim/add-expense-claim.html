@@ -1,0 +1,108 @@
+<button (click)="goBack()" class="btn btn-secondary mb-3">
+  ← Back to All Claims
+</button>
+
+<h2>Add Expense Claim</h2>
+
+<form [formGroup]="expenseClaimForm">
+  <!-- Date -->
+  <div class="col-md-3 mb-3">
+    <label for="date" class="form-label">Date</label>
+    <input
+      type="date"
+      class="form-control"
+      id="date"
+      formControlName="date"
+      required
+    />
+  </div>
+
+  <!-- Description -->
+  <div class="col-md-4 mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea
+      class="form-control"
+      id="description"
+      rows="3"
+      formControlName="description"
+      required
+      placeholder="Enter details"
+    ></textarea>
+  </div>
+
+  <!-- Total should be calculated automatically after adding each entry expense claim details -->
+  <div class="col-md-4 mb-3">
+    <label for="total" class="form-label">Total: {{ totalCount }}</label>
+  </div>
+
+  <!-- <input formControlName="status" type="text" readonly />
+  <input formControlName="total" type="number" readonly /> -->
+
+  <!-- Expense Details Section -->
+  <hr />
+  <h5 class="mt-4">Expense Details Entries</h5>
+
+  <div
+    *ngFor="let entry of expenseDetails.controls; let i = index"
+    [formGroupName]="i"
+    class="border rounded p-3 mb-3"
+  >
+    <div class="row">
+      <div class="col-md-3">
+        <label class="form-label">Date</label>
+        <input type="date" class="form-control" formControlName="date" />
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Type</label>
+        <select class="form-select" formControlName="type">
+          <option value="hotel">Hotel</option>
+          <option value="car rental">Car Rental</option>
+          <option value="food">Food</option>
+          <option value="ticket">Ticket</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Description</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="description"
+          placeholder="E.g. Flight to NYC"
+        />
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Total</label>
+        <input type="number" class="form-control" formControlName="total" />
+      </div>
+    </div>
+
+    <div class="text-end mt-2">
+      <button
+        type="button"
+        class="btn btn-danger btn-sm"
+        (click)="removeExpenseDetail(i)"
+      >
+        Remove Entry
+      </button>
+    </div>
+  </div>
+
+  <!-- Add new entry -->
+  <button
+    type="button"
+    class="btn btn-outline-primary mb-4"
+    (click)="addExpenseDetail()"
+  >
+    + Add Another Entry
+  </button>
+
+  <!-- Form Actions -->
+  <div class="d-flex justify-content-end gap-2">
+    <button type="button" class="btn btn-secondary" (click)="goBack()">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()">
+      Submit
+    </button>
+  </div>
+</form>
