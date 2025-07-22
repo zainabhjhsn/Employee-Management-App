@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   inject,
@@ -36,6 +37,8 @@ export class Employee implements OnInit {
 
   departmentList$: Observable<Department[]> = new Observable<Department[]>();
 
+  constructor(private cd: ChangeDetectorRef) {}
+
   ngOnInit(): void {
     this.getEmployees();
     this.departmentList$ = this.departmentService.getDepartments();
@@ -48,6 +51,7 @@ export class Employee implements OnInit {
           this.employeeList = [];
           setTimeout(() => {
             this.employeeList = response.data;
+            this.cd.detectChanges();
           }, 100);
         }
       },

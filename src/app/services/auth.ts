@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { StorageService } from './storage';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { environment } from '../../environments/environment';
 export class AuthService {
   private url = `${environment.apiUrl}/auth`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private localStorage: StorageService) {}
 
   //User Login as either Admin or Employee
   onLogin(object: any) {
@@ -16,7 +17,7 @@ export class AuthService {
   }
 
   getUser(): any {
-    const userString = localStorage.getItem('leaveUser');
+    const userString = this.localStorage.getItem('leaveUser');
     if (!userString || userString === 'undefined') return null;
 
     try {

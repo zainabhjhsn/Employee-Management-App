@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { APIResponseModel } from '../models/Employee.model';
 import { environment } from '../../environments/environment';
+import { TotalLeavesByType } from '../models/Leave.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LeaveService {
-  // private url = 'http://localhost:3001/api/leaves';
   private url = `${environment.apiUrl}/leaves`;
 
   constructor(private http: HttpClient) {}
@@ -16,10 +16,6 @@ export class LeaveService {
   onAddLeave(payload: any): Observable<APIResponseModel> {
     return this.http.post<APIResponseModel>(`${this.url}`, payload);
   }
-
-  // getAllLeaves(): Observable<APIResponseModel> {
-  //   return this.http.get<APIResponseModel>(`${this.url}`);
-  // }
 
   //with filter
   getAllLeaves(from?: string, to?: string): Observable<APIResponseModel> {
@@ -47,6 +43,10 @@ export class LeaveService {
     if (to) params = params.set('to', to);
 
     return this.http.get(`${this.url}/employee/${employeeId}`, { params });
+  }
+
+  getLeaveTotalsByType(): Observable<TotalLeavesByType[]> {
+    return this.http.get<TotalLeavesByType[]>(`${this.url}/totals-by-type`);
   }
 
   approveLeave(leaveId: number): Observable<APIResponseModel> {

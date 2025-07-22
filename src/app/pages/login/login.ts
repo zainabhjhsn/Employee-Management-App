@@ -9,6 +9,7 @@ import {
 import { EmployeeService } from '../../services/employee';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { StorageService } from '../../services/storage';
 
 @Component({
   standalone: true,
@@ -26,19 +27,18 @@ export class Login {
   employeeService = inject(EmployeeService);
   authService = inject(AuthService);
   router = inject(Router);
+  localStorage = inject(StorageService);
 
   Login() {
     const formValue = this.loginForm.value;
     this.authService.onLogin(formValue).subscribe({
       next: (response: any) => {
         if (response) {
-          alert('Login successful!');
-
           // Save token
-          localStorage.setItem('token', response.token);
+          this.localStorage.setItem('token', response.token);
 
           // Save entire user object
-          localStorage.setItem('leaveUser', JSON.stringify(response.data));
+          this.localStorage.setItem('leaveUser', JSON.stringify(response.data));
 
           // Redirect based on user role
           if (response.data.role === 'employee') {

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   inject,
@@ -53,7 +54,7 @@ export class Leave implements OnInit {
   constructor(
     private leaveService: LeaveService,
     private authService: AuthService,
-    // private router: Router
+    private cd: ChangeDetectorRef // private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +69,7 @@ export class Leave implements OnInit {
       } else {
         this.loadLeavesByEmployeeId(this.employeeId);
       }
+      this.cd.detectChanges();
     }
   }
 
@@ -93,6 +95,7 @@ export class Leave implements OnInit {
       .subscribe({
         next: (result: any) => {
           this.leaveList = result.data;
+          this.cd.detectChanges();
         },
         error: (error) => {
           console.error('Error loading leaves:', error);
@@ -106,7 +109,7 @@ export class Leave implements OnInit {
     this.leaveService.getAllLeavesByEmployeeId(empId).subscribe({
       next: (result: any) => {
         this.leaveList = result.data;
-        console.log('Leaves loaded:', this.leaveList);
+        this.cd.detectChanges();
       },
       error: (error) => {
         console.error('Error loading leaves:', error);
@@ -137,6 +140,7 @@ export class Leave implements OnInit {
         this.approvalLeaveList = result.data.filter(
           (m: any) => m.status == 'pending'
         );
+        this.cd.detectChanges();
       },
       error: (error) => {
         console.error('Error loading leaves:', error);

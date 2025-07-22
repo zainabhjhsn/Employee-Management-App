@@ -30,12 +30,12 @@ export class ExpenseClaimService {
     return this.http.get<APIResponseModel>(`${this.url}/${claimId}`);
   }
 
-  getExpenseTotalsByType(): Observable<
-    { type: string; totalAmount: number }[]
-  > {
-    return this.http.get<{ type: string; totalAmount: number }[]>(
-      '/api/expense-claims/totals-by-type'
-    );
+  getExpenseTotalsByType(): Observable<TotalExpensesByType[]> {
+    return this.http
+      .get<{ status: string; data: TotalExpensesByType[] }>(
+        'http://localhost:3001/api/expense-claims-details/totals-by-type'
+      )
+      .pipe(map((response) => response.data));
   }
 
   approveClaim(claimId: number): Observable<APIResponseModel> {

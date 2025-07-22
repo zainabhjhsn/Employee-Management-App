@@ -1,0 +1,17 @@
+<div class="container">
+  <h2 *ngIf="title" class="text-center">{{ title }}</h2>
+
+  <div class="bar-chart-container" *ngIf="data && data.length">
+    <div class="bar" *ngFor="let item of data">
+      <span class="label">{{ item.type || "Unknown" }}</span>
+      <div class="bar-background">
+        <div
+          class="bar-fill"
+          [style.width.%]="(item.value / getMaxValue()) * 100"
+        >
+          {{ item.value }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

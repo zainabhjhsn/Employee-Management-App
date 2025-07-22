@@ -25,4 +25,8 @@ export class LeaveTypeService {
   deleteLeaveType(id: number): Observable<any> {
     return this.http.delete(`${this.url}/${id}`);
   }
+
+  editLeaveType(id: number, payload: { name: string }): Observable<any> {
+    return this.http.put(`${this.url}/${id}`, payload);
+  }
 }

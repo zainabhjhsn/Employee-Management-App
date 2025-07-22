@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { LeaveService } from '../../../services/leave';
 import { CommonModule } from '@angular/common';
@@ -21,7 +21,8 @@ export class EmployeeLeaves implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private leaveService: LeaveService,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +36,7 @@ export class EmployeeLeaves implements OnInit {
       .subscribe({
         next: (result: any) => {
           this.leaves = result.data;
+          this.cd.detectChanges();
         },
         error: (error) => {
           console.error('Error loading leaves:', error);

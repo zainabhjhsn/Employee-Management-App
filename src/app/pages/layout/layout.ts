@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { StorageService } from '../../services/storage';
 
 @Component({
   selector: 'app-layout',
@@ -15,11 +16,11 @@ export class Layout {
   currentYear: number = new Date().getFullYear();
   // userRole: string | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private localStorage: StorageService) {}
 
   onLogOut() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('leaveUser');
+    this.localStorage.removeItem('token');
+    this.localStorage.removeItem('leaveUser');
     alert('You have been logged out successfully.');
     this.router.navigate(['/login']);
   }

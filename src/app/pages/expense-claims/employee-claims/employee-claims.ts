@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +19,8 @@ export class EmployeeClaims {
     private route: ActivatedRoute,
     private expenseLeaveService: ExpenseClaimService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +35,7 @@ export class EmployeeClaims {
       .subscribe({
         next: (result: any) => {
           this.claimDetails = result.data;
+          this.cd.detectChanges();
         },
         error: (error) => {
           console.error('Error loading details:', error);

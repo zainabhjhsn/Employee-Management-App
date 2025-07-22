@@ -9,14 +9,14 @@
 //   details: { total: number; type: string; description: string } | null;
 // }
 
-interface ExpenseClaimDetail {
+export interface ExpenseClaimDetail {
   date: string;
   type: string;
   description: string;
   total: number;
 }
 
-interface ExpenseClaim {
+export interface ExpenseClaim {
   id: number;
   employee_id: number;
   date: string;
@@ -24,4 +24,9 @@ interface ExpenseClaim {
   description: string;
   status: string;
   details: ExpenseClaimDetail[];
+}
+
+export interface TotalExpensesByType {
+  type: string;
+  totalAmount: number;
 }

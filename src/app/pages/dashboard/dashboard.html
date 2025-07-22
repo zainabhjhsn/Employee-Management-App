@@ -1,11 +1,11 @@
-<h2>Total Leaves by Leave Type</h2>
-<div class="bar-chart">
-  <div *ngFor="let item of leaveData" class="bar-container">
-    <div class="bar-label">{{ item.type }}</div>
-    <div class="bar" [style.width.%]="(item.count / maxCount) * 100">
-      {{ item.count }}
-    </div>
-  </div>
-</div>
-
-<h2 style="border-top: 2px solid #ccc; padding-top: 10px;">Total expense claim amounts by expense type</h2>
+<app-bar-chart
+  [title]="'Total Leaves by Leave Type'"
+  [data]="leaveChartData"
+  [maxValue]="maxLeaveValue"
+></app-bar-chart>
+<hr>
+<app-bar-chart
+  [title]="'Total Expense Claim Amounts by Expense Type'"
+  [data]="expenseChartData"
+  [maxValue]="maxExpenseValue"
+></app-bar-chart>

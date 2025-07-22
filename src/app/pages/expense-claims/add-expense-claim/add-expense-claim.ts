@@ -11,6 +11,7 @@ import {
 import { ExpenseClaimService } from '../../../services/expense-claim';
 import { APIResponseModel } from '../../../models/Employee.model';
 import { AuthService } from '../../../services/auth';
+import { ExpenseClaim } from '../../../models/ExpenseClaimModel';
 
 @Component({
   selector: 'app-add-expense-claim',

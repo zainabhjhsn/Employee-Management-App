@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import { CommonModule } from '@angular/common';
@@ -26,7 +26,8 @@ export class ExpenseClaims implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private expenseClaimService: ExpenseClaimService
+    private expenseClaimService: ExpenseClaimService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +59,7 @@ export class ExpenseClaims implements OnInit {
     this.expenseClaimService.getAllClaims().subscribe({
       next: (result: any) => {
         this.claimList = result.data;
-        console.log('all expense claim data: ', result.data);
+        this.cd.detectChanges();
       },
       error: (error) => {
         console.error('Error loading leaves:', error);
@@ -72,6 +73,7 @@ export class ExpenseClaims implements OnInit {
         this.approvalClaimList = result.data.filter(
           (m: any) => m.status == 'pending'
         );
+        this.cd.detectChanges();
       },
       error: (error) => {
         console.error('Error loading claims:', error);
@@ -84,7 +86,7 @@ export class ExpenseClaims implements OnInit {
     this.expenseClaimService.getAllClaimsByEmployeeId(empId).subscribe({
       next: (result: any) => {
         this.claimList = result.data;
-        console.log('Claims loaded:', this.claimList);
+        this.cd.detectChanges();
       },
       error: (error) => {
         console.error('Error loading leaves:', error);
