@@ -103,7 +103,7 @@ export class AddExpenseClaim implements OnInit {
     this.expenseClaimForm = this.fb.group({
       id: [null],
       employee_id: [
-        this.authService.getUser()?.id || null,
+        this.authService.getUser()?.employee_id || null,
         Validators.required,
       ],
       date: [''],
@@ -177,7 +177,7 @@ export class AddExpenseClaim implements OnInit {
 
     const payload = this.expenseClaimForm.value;
 
-    if (this.isEditMode && this.claimId) {
+    if (this.isEditMode) {
       this.expenseClaimService.updateClaim(payload).subscribe({
         next: (response: APIResponseModel) => {
           if (response.status === 'success') {
