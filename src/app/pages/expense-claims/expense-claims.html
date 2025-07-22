@@ -55,6 +55,7 @@
       <app-expense-claims-table
         [claimsList]="claimList"
         [showActions]="true"
+        [isEmployee]="isEmployee"
         (delete)="deleteExpenseClaim($event)"
         (edit)="editExpenseClaim($event)"
       ></app-expense-claims-table>

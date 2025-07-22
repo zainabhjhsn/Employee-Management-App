@@ -59,6 +59,10 @@ export const routes: Routes = [
         component: AddExpenseClaim,
       },
       {
+        path: 'expense-claims/edit/:id',
+        component: AddExpenseClaim,
+      },
+      {
         path: 'expense-claims/employee/:employeeId',
         component: EmployeeClaims,
       },

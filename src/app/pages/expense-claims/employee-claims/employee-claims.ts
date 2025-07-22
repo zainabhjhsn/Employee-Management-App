@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ExpenseClaimService } from '../../../services/expense-claim';
+import { AuthService } from '../../../services/auth';
 
 @Component({
   selector: 'app-employee-claims',
@@ -17,11 +18,13 @@ export class EmployeeClaims {
   constructor(
     private route: ActivatedRoute,
     private expenseLeaveService: ExpenseClaimService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.employeeId = this.route.snapshot.paramMap.get('employeeId')!;
+
     this.fetchEmployeeClaims();
   }
 

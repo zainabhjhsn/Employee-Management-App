@@ -12,6 +12,7 @@ export class ExpenseClaimsTable {
   @Input() claimsList: any[] = [];
   @Input() showActions: boolean = false;
   @Input() isApprovalTable: boolean = false;
+  @Input() isEmployee: boolean = false;
 
   @Output() approve = new EventEmitter<number>();
   @Output() reject = new EventEmitter<number>();

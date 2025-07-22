@@ -1,26 +1,58 @@
 <button (click)="goBack()" class="btn btn-secondary mb-3">← Back</button>
 
-<h4 class="mb-4">
-  Expense Claims Details for Employee: {{ claimDetails[0]?.employee?.name }}
-</h4>
+<ng-template #noData>
+  <h4>No claims found for this employee.</h4>
+</ng-template>
 
 <table class="table table-bordered">
-  <thead>
+  <thead class="table-secondary">
     <tr>
-      <th>Date</th>
-      <th>Type</th>
       <th>Description</th>
       <th>Total</th>
       <th>Status</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of claimDetails">
-      <td>{{ item.date | date : "dd-MM-yyyy" }}</td>
-      <td>{{ item.type }}</td>
-      <td>{{ item.description }}</td>
-      <td>{{ item.total }}</td>
-      <td>{{ item.status }}</td>
-    </tr>
+    <ng-container *ngFor="let claim of claimDetails">
+      <!-- Main claim row -->
+      <tr>
+        <td>
+          <span class="fw-semibold">{{ claim.description }}</span>
+        </td>
+        <td>{{ claim.total }}</td>
+        <td
+          class="badge m-2"
+          [ngClass]="{
+            'bg-warning': claim.status == 'pending',
+            'bg-success': claim.status == 'approved',
+            'bg-danger': claim.status == 'rejected'
+          }"
+        >
+          {{ claim.status }}
+        </td>
+      </tr>
+
+      <!-- Nested details row -->
+      <tr>
+        <td colspan="3" style="padding-left: 40px; background-color: #f9f9f9">
+          <table class="table mb-0">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let detail of claim.details">
+                <td>{{ detail.type }}</td>
+                <td>{{ detail.description }}</td>
+                <td>{{ detail.total }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </ng-container>
   </tbody>
 </table>

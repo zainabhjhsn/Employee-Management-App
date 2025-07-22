@@ -26,15 +26,27 @@ export class ExpenseClaimService {
     );
   }
 
-  approveClaim(leaveId: number): Observable<APIResponseModel> {
-    return this.http.get<APIResponseModel>(
-      `${this.url}/approveClaim/${leaveId}`
+  getClaimById(claimId: number): Observable<APIResponseModel> {
+    return this.http.get<APIResponseModel>(`${this.url}/${claimId}`);
+  }
+
+  getExpenseTotalsByType(): Observable<
+    { type: string; totalAmount: number }[]
+  > {
+    return this.http.get<{ type: string; totalAmount: number }[]>(
+      '/api/expense-claims/totals-by-type'
     );
   }
 
-  rejectClaim(leaveId: number): Observable<APIResponseModel> {
+  approveClaim(claimId: number): Observable<APIResponseModel> {
     return this.http.get<APIResponseModel>(
-      `${this.url}/rejectClaim/${leaveId}`
+      `${this.url}/approveClaim/${claimId}`
+    );
+  }
+
+  rejectClaim(claimId: number): Observable<APIResponseModel> {
+    return this.http.get<APIResponseModel>(
+      `${this.url}/rejectClaim/${claimId}`
     );
   }
 
@@ -42,7 +54,10 @@ export class ExpenseClaimService {
     return this.http.delete<APIResponseModel>(`${this.url}/${id}`);
   }
 
-  updateClaim(leave: any): Observable<APIResponseModel> {
-    return this.http.put<APIResponseModel>(`${this.url}/${leave.id}`, leave);
+  updateClaim(claimPayload: any): Observable<APIResponseModel> {
+    return this.http.put<APIResponseModel>(
+      `${this.url}/${claimPayload.id}`,
+      claimPayload
+    );
   }
 }

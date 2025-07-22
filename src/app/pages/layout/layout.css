@@ -1,7 +1,8 @@
 /* Layout */
 .wrapper {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  flex-direction: row;
   overflow-x: hidden;
 }
 
@@ -12,6 +13,9 @@
   padding: 20px;
   transition: all 0.3s ease;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .sidebar .sidebar-header {
@@ -39,11 +43,11 @@
 }
 
 .sidebar .sidebar-footer {
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  width: 100%;
   text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 250px;
 }
 
 .sidebar .sidebar-footer p {

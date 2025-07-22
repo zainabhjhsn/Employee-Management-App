@@ -58,6 +58,7 @@ export class ExpenseClaims implements OnInit {
     this.expenseClaimService.getAllClaims().subscribe({
       next: (result: any) => {
         this.claimList = result.data;
+        console.log('all expense claim data: ', result.data);
       },
       error: (error) => {
         console.error('Error loading leaves:', error);
@@ -108,21 +109,24 @@ export class ExpenseClaims implements OnInit {
     }
   }
 
+  // editExpenseClaim(claimId: number) {
+  //   if (confirm('Are you sure you want to update this claim?')) {
+  //     this.expenseClaimService.updateClaim(claimId).subscribe({
+  //       next: (response: APIResponseModel) => {
+  //         if (response.status === 'success') {
+  //           this.loadAllExpenseClaims();
+  //         }
+  //       },
+  //       error: (error) => {
+  //         alert('Failed to update claim.');
+  //         console.error(error);
+  //       },
+  //     });
+  //   }
+  // }
+
   editExpenseClaim(claimId: number) {
-    if (confirm('Are you sure you want to update this claim?')) {
-      this.expenseClaimService.updateClaim(claimId).subscribe({
-        next: (response: APIResponseModel) => {
-          if (response.status === 'success') {
-            alert('Claim updated successfully!');
-            this.loadAllExpenseClaims();
-          }
-        },
-        error: (error) => {
-          alert('Failed to update claim.');
-          console.error(error);
-        },
-      });
-    }
+    this.router.navigate(['/expense-claims/edit', claimId]);
   }
 
   approveClaim(id: number) {
